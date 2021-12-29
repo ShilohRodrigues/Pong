@@ -170,6 +170,7 @@ window.addEventListener('keyup', (e) => {
 })
 
 /************* Game Functions *******************/
+
 function setGameSettings() {
 
   //Set the speed of the ball
@@ -251,9 +252,6 @@ function startGame(isDemo) {
   //Reset the score
   score1.innerText = 0
   score2.innerText = 0
- 
-  console.log(ball.direction);
-  console.log(botPaddleSpeed);
 
   firstShot = true
   gameStopped = false
