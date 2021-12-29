@@ -96,19 +96,57 @@ btnReset.addEventListener('click', () => {
   startGame(true)
 })
 
-
+//Keyboard events
 window.addEventListener('keydown', e => {
+
+  
   switch(e.key) {
     case 'ArrowUp':
-      paddle1.direction = -1 * PADDLE_SPEED
+      //p1 is human and p2 is bot set the arrows as controls
+      if (!p1IsBot && p2IsBot) 
+        paddle1.direction = -1 * PADDLE_SPEED
+      else 
+        paddle2.direction = -1 * PADDLE_SPEED
       break
     case 'ArrowDown':
+      if (!p1IsBot && p2IsBot)
+        paddle1.direction = PADDLE_SPEED
+      else
+        paddle2.direction = PADDLE_SPEED
+      break
+    case 'w':
+      if (!p1IsBot && !p2IsBot)
+        paddle1.direction = -1 * PADDLE_SPEED
+      break
+    case 's':
+      if (!p1IsBot && !p2IsBot)
       paddle1.direction = PADDLE_SPEED
       break
   }
 })
 window.addEventListener('keyup', (e) => {
-  paddle1.direction = 0
+  switch(e.key) {
+    case 'ArrowUp':
+      if (!p1IsBot && p2IsBot)
+        paddle1.direction = 0
+      else 
+        paddle2.direction = 0
+      break
+    case 'ArrowDown':
+      if (!p1IsBot && p2IsBot)
+        paddle1.direction = 0
+      else
+        paddle2.direction = 0
+      break
+    case 'w':
+      if (!p1IsBot && !p2IsBot)
+        paddle1.direction = 0
+      break
+    case 's':
+      if (!p1IsBot && !p2IsBot)
+        paddle1.direction = 0
+      break
+  }
 })
 
 /************* Game Functions *******************/
@@ -254,7 +292,7 @@ function calculateNextBallPosition() {
     score2.innerText = parseFloat(score2.innerText) + 1
     if (score2.innerText == MAX_SCORE) endGame(p2Name.innerText)
     resetBall()
-    ball.direction = ballSpeed
+    ball.direction = ballSpeed / 2
   }
 
   //Hits player2s paddle
@@ -274,7 +312,7 @@ function calculateNextBallPosition() {
     score1.innerText = parseFloat(score1.innerText) + 1
     if (score1.innerText == MAX_SCORE) endGame(p1Name.innerText)
     resetBall()
-    ball.direction = -1 * ballSpeed
+    ball.direction = -1 * ballSpeed / 2
   }
 
   //Hits the top and bottom wall
@@ -290,6 +328,7 @@ function calculateBounceAngle(yPosOnPaddle) {
 }
 
 function resetBall() {
+  firstShot = true
   ball.angle = getRandomBallAngle()
   ball.x = canvasSize/2
   ball.y = canvasSize/2
