@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pong</title>
+  <link href="style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Orbitron">
+</head>
+<body>
+  <div class="center-wrapper">
+    <header>
+      <h4 id="p1-name">PONG BOT</h4>
+      <h1>PONG</h1>
+      <h4 id="p2-name">PONG BOT</h4>
+    </header>
+    <div id="score">
+      <h2 id="player1-score">0</h2>
+      <h2 id="player2-score">0</h2>
+    </div>
+    <div id="start-menu" class="center-div ">
+      <h2>Choose Players:</h2>
+      <div class="user-select">
+        <input type="radio" id="p1-user" name="p1-type" checked>
+        <label for="p1-user">Player Controlled</label><br>
+        <input type="radio" id="p1-bot" name="p1-type">
+        <label for="p1-bot">PONG BOT</label>
+        <input value="PLAYER 1" name="player1-name" id="player1-name" class="name-input">  
+      </div>
+      <div class="user-select">
+        <input type="radio" id="p2-user" name="p2-type" disabled>
+        <label for="p2-user">Player Controlled</label><br>
+        <input type="radio" id="p2-bot" name="p2-type" checked>
+        <label for="p2-bot">PONG BOT</label>
+        <input value="PONG BOT" name="player2-name" id="player2-name" class="name-input" disabled>
+      </div>
+      <button id="start-btn" class="btn">Start Game</button>
+    </div>
+    <div id="winner-screen" class="center-div hide">
+      <h2><span id="winner-name">Player 1</span> Wins!</h2>
+      <button id="reset-btn" class="btn">Return to Menu</button>
+    </div>
+    <canvas id="canvas" height="1000" width="1000"></canvas>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
