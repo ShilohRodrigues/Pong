@@ -3,7 +3,6 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: "Orbitron";
 }
 
 body {
@@ -11,7 +10,8 @@ body {
   width: 100vw;
   display: grid;
   place-items: center;
-  color: #fff
+  color: #fff;
+  font-family: "Orbitron";
 }
 
 header {
@@ -41,6 +41,17 @@ header {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
+#setting-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1vmin 2vmin;
+  font-size: 3vmin;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+
 #start-menu h2 {
   font-size: 4vmin;
   font-weight: bolder;
@@ -51,8 +62,14 @@ header {
   font-size: 2vmin;
 }
 
+.radio-btn {
+  height: 2vmin;
+  width: 2vmin;
+}
+
 #start-menu .name-input {
   font-size: 2vmin;
+  font-family: "Orbitron";
   margin-top: 1vmin;
   max-width: 23vmin;
   text-transform: uppercase;
@@ -64,18 +81,41 @@ header {
 
 .btn {
   font-size: 2vmin;
+  font-family: "Orbitron";
   padding: 1vmin 2vmin;
   cursor: pointer;
+}
+
+#setting-menu {
+  display: grid;
+  place-items: center;
+  gap: 2vmin;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+#setting-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2vmin;
+}
+
+.slider {
+  height: 3vmin;
+  width: 20vmin;
 }
 
 #winner-screen {
   background-color: rgba(0, 0, 0, 1);
 }
 
+#winner-screen h2 {
+  font-size: 4vmin;
+}
+
 #winner-screen #reset-btn {
   display: block;
-  width: 70%;
-  margin: 3vmin auto 0 auto;
+  width: 100%;
+  margin: 3vmin 0 0 0;
 }
 
 #score {

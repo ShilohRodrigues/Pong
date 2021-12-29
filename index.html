@@ -7,8 +7,9 @@
   <title>Pong</title>
   <link href="style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Orbitron">
+  <script src="https://kit.fontawesome.com/1498b3f271.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body> 
   <div class="center-wrapper">
     <header>
       <h4 id="p1-name">PONG BOT</h4>
@@ -19,23 +20,37 @@
       <h2 id="player1-score">0</h2>
       <h2 id="player2-score">0</h2>
     </div>
-    <div id="start-menu" class="center-div ">
+    <div id="start-menu" class="center-div">
       <h2>Choose Players:</h2>
+      <a id="setting-btn"><i class="fas fa-cog"></i></a> 
       <div class="user-select">
-        <input type="radio" id="p1-user" name="p1-type" checked>
+        <input type="radio" id="p1-user" name="p1-type" class="radio-btn" checked>
         <label for="p1-user">Player Controlled</label><br>
-        <input type="radio" id="p1-bot" name="p1-type">
+        <input type="radio" id="p1-bot" name="p1-type" class="radio-btn">
         <label for="p1-bot">PONG BOT</label>
         <input value="PLAYER 1" name="player1-name" id="player1-name" class="name-input">  
       </div>
       <div class="user-select">
-        <input type="radio" id="p2-user" name="p2-type">
+        <input type="radio" id="p2-user" name="p2-type" class="radio-btn">
         <label for="p2-user">Player Controlled</label><br>
-        <input type="radio" id="p2-bot" name="p2-type" checked>
+        <input type="radio" id="p2-bot" name="p2-type" class="radio-btn" checked>
         <label for="p2-bot">PONG BOT</label>
         <input value="PONG BOT" name="player2-name" id="player2-name" class="name-input" disabled>
       </div>
       <button id="start-btn" class="btn">Start Game</button>
+    </div>
+    <div id="setting-menu" class="center-div hide">
+      <h2>Settings</h2>
+      <form id="setting-form">
+        <label for="bot-difficulty">Bot Difficulty:</label>
+        <input name="bot-difficulty" id="bot-difficulty" class="slider" type="range" step="1" min="1" max="3" value="2">
+        <label for="ball-speed">Ball Speed:</label>
+        <input name="ball-speed" id="ball-speed" class="slider" type="range" step="1" min="1" max="3" value="2">
+        <label for="paddle-speed">Paddle Speed:</label>
+        <input name="paddle-speed" id="paddle-speed" class="slider" type="range" step="1" min="1" max="3" value="2">
+        <button id="save-btn" class="btn">Save</button>
+        <button type="reset" class="btn">Reset</button>
+      </form>   
     </div>
     <div id="winner-screen" class="center-div hide">
       <h2><span id="winner-name">Player 1</span> Wins!</h2>

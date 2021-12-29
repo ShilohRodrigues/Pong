@@ -15,15 +15,23 @@ const btnStart = document.getElementById('start-btn')
 const winnerScreen = document.getElementById('winner-screen')
 const startScreen = document.getElementById('start-menu')
 const btnReset = document.getElementById('reset-btn')
+const btnSave = document.getElementById('save-btn')
+const ballSpeedSlider = document.getElementById('ball-speed')
+const botDifficultySlider = document.getElementById('bot-difficulty')
+const paddleSpeedSlider = document.getElementById('paddle-speed')
+const settingScreen = document.getElementById('setting-menu')
+const btnSetting = document.getElementById('setting-btn')
 
 //Game settings
 const MAX_BOUNCE_ANGLE = 70
 const MAX_SCORE = 10
+const FIRST_SHOT_SPEED = 4
 const canvasSize = 1000
 const paddleSize = { 'w':20, 'h':200 }
 let renderSpeed = 100
 let ballSpeed = 15
-const PADDLE_SPEED = 10
+let paddleSpeed = 10
+let botPaddleSpeed = 10
 let lastFrameTime = 0
 let gameStopped = false
 let demoRunning = true
@@ -50,15 +58,29 @@ const paddle2 = {
 const ball = {
   'x': canvasSize/2,
   'y': canvasSize/2,
-  'direction': -1 * ballSpeed / 2, //-1 for left, +1 for right (halved for the first shot)
+  'direction': -1 * ballSpeed / FIRST_SHOT_SPEED, //-1 for left, +1 for right (halved for the first shot)
   'angle': getRandomBallAngle(),
   'size': 10
 }
 
 /*********** Event Listeners **********/
 window.addEventListener('load', ()=> {
+  setGameSettings()
   demoRunning = true
   window.requestAnimationFrame(gameLoop)
+})
+
+btnSetting.addEventListener('click', () => {
+  settingScreen.classList.remove('hide')
+  startScreen.classList.add('hide')
+})
+
+//Settings submit 
+btnSave.addEventListener('click', e => {
+  e.preventDefault()
+  setGameSettings();
+  startScreen.classList.remove('hide')
+  settingScreen.classList.add('hide')
 })
 
 //User selecting # of players
@@ -98,29 +120,27 @@ btnReset.addEventListener('click', () => {
 
 //Keyboard events
 window.addEventListener('keydown', e => {
-
-  
   switch(e.key) {
     case 'ArrowUp':
       //p1 is human and p2 is bot set the arrows as controls
       if (!p1IsBot && p2IsBot) 
-        paddle1.direction = -1 * PADDLE_SPEED
+        paddle1.direction = -1 * paddleSpeed
       else 
-        paddle2.direction = -1 * PADDLE_SPEED
+        paddle2.direction = -1 * paddleSpeed
       break
     case 'ArrowDown':
       if (!p1IsBot && p2IsBot)
-        paddle1.direction = PADDLE_SPEED
+        paddle1.direction = paddleSpeed
       else
-        paddle2.direction = PADDLE_SPEED
+        paddle2.direction = paddleSpeed
       break
     case 'w':
       if (!p1IsBot && !p2IsBot)
-        paddle1.direction = -1 * PADDLE_SPEED
+        paddle1.direction = -1 * paddleSpeed
       break
     case 's':
       if (!p1IsBot && !p2IsBot)
-      paddle1.direction = PADDLE_SPEED
+      paddle1.direction = paddleSpeed
       break
   }
 })
@@ -150,6 +170,48 @@ window.addEventListener('keyup', (e) => {
 })
 
 /************* Game Functions *******************/
+function setGameSettings() {
+
+  //Set the speed of the ball
+  switch (ballSpeedSlider.value) {
+    case '1':
+      ballSpeed = 10
+      break
+    case '2':
+      ballSpeed = 15
+      break
+    case '3':
+      ballSpeed = 20
+      break
+  }
+
+  //Set the speed of the paddle
+  switch (paddleSpeedSlider.value) {
+    case '1':
+      paddleSpeed = 7
+      break
+    case '2':
+      paddleSpeed = 10
+      break
+    case '3':
+      paddleSpeed = 15
+      break
+  }
+
+  //Set the speed of the bot
+  switch (botDifficultySlider.value) {
+    case '1':
+      botPaddleSpeed = ballSpeed * (1/3)
+      break
+    case '2':
+      botPaddleSpeed = ballSpeed * (2/3)
+      break
+    case '3':
+      botPaddleSpeed = ballSpeed
+      break
+  }
+
+}
 
 function startGame(isDemo) {
 
@@ -183,13 +245,16 @@ function startGame(isDemo) {
   //Reset the ball
   ball.x = canvasSize/2
   ball.y = canvasSize/2
-  ball.direction = -1 * ballSpeed / 2
+  ball.direction = -1 * ballSpeed / FIRST_SHOT_SPEED
   ball.angle = getRandomBallAngle()
 
   //Reset the score
   score1.innerText = 0
   score2.innerText = 0
  
+  console.log(ball.direction);
+  console.log(botPaddleSpeed);
+
   firstShot = true
   gameStopped = false
   window.requestAnimationFrame(gameLoop) 
@@ -283,7 +348,7 @@ function calculateNextBallPosition() {
     ball.angle = calculateBounceAngle(yPosOnPaddle) * -1
     //Double the speed after the first hit
     if (firstShot) {
-      ball.direction *= 2 
+      ball.direction *= FIRST_SHOT_SPEED
       firstShot = false
     }
   }
@@ -292,7 +357,7 @@ function calculateNextBallPosition() {
     score2.innerText = parseFloat(score2.innerText) + 1
     if (score2.innerText == MAX_SCORE) endGame(p2Name.innerText)
     resetBall()
-    ball.direction = ballSpeed / 2
+    ball.direction = ballSpeed / FIRST_SHOT_SPEED
   }
 
   //Hits player2s paddle
@@ -303,7 +368,7 @@ function calculateNextBallPosition() {
     ball.angle = calculateBounceAngle(yPosOnPaddle)
     //Double the speed after the first hit
     if (firstShot) {
-      ball.direction *= 2 
+      ball.direction *= FIRST_SHOT_SPEED 
       firstShot = false
     }
   }
@@ -312,7 +377,7 @@ function calculateNextBallPosition() {
     score1.innerText = parseFloat(score1.innerText) + 1
     if (score1.innerText == MAX_SCORE) endGame(p1Name.innerText)
     resetBall()
-    ball.direction = -1 * ballSpeed / 2
+    ball.direction = -1 * ballSpeed / FIRST_SHOT_SPEED
   }
 
   //Hits the top and bottom wall
@@ -377,11 +442,11 @@ function updatePongBotPaddlePos1() {
 
     //Check if the center of the paddle is above the predicted pos of the ball
     if (paddle1.y + (paddle1.h / 2) > predictedY + 50) {
-      paddle1.direction = PADDLE_SPEED * -1
+      paddle1.direction = botPaddleSpeed * -1
       movePaddle1()
     }
     if (paddle1.y + (paddle1.h / 2) < predictedY + 50) {
-      paddle1.direction = PADDLE_SPEED
+      paddle1.direction = botPaddleSpeed
       movePaddle1()
     }
 
@@ -404,11 +469,11 @@ function updatePongBotPaddlePos2() {
 
     //Check if the center of the paddle is above the predicted pos of the ball +/- an allowance
     if (paddle2.y + (paddle2.h / 2) > (predictedY + 50)) {
-      paddle2.direction = PADDLE_SPEED * -1
+      paddle2.direction = botPaddleSpeed * -1
       movePaddle2()
     }
     if (paddle2.y + (paddle2.h / 2) < (predictedY - 50)) {
-      paddle2.direction = PADDLE_SPEED
+      paddle2.direction = botPaddleSpeed
       movePaddle2()
     }
 
