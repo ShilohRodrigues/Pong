@@ -147,22 +147,26 @@ window.addEventListener('keydown', e => {
 window.addEventListener('keyup', (e) => {
   switch(e.key) {
     case 'ArrowUp':
+      e.preventDefault()
       if (!p1IsBot && p2IsBot)
         paddle1.direction = 0
       else 
         paddle2.direction = 0
       break
     case 'ArrowDown':
+      e.preventDefault()
       if (!p1IsBot && p2IsBot)
         paddle1.direction = 0
       else
         paddle2.direction = 0
       break
     case 'w':
+      e.preventDefault()
       if (!p1IsBot && !p2IsBot)
         paddle1.direction = 0
       break
     case 's':
+      e.preventDefault()
       if (!p1IsBot && !p2IsBot)
         paddle1.direction = 0
       break
