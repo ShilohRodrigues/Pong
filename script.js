@@ -122,6 +122,7 @@ btnReset.addEventListener('click', () => {
 window.addEventListener('keydown', e => {
   switch(e.key) {
     case 'ArrowUp':
+      e.preventDefault()
       //p1 is human and p2 is bot set the arrows as controls
       if (!p1IsBot && p2IsBot) 
         paddle1.direction = -1 * paddleSpeed
@@ -129,16 +130,19 @@ window.addEventListener('keydown', e => {
         paddle2.direction = -1 * paddleSpeed
       break
     case 'ArrowDown':
+      e.preventDefault()
       if (!p1IsBot && p2IsBot)
         paddle1.direction = paddleSpeed
       else
         paddle2.direction = paddleSpeed
       break
     case 'w':
+      e.preventDefault()
       if (!p1IsBot && !p2IsBot)
         paddle1.direction = -1 * paddleSpeed
       break
     case 's':
+      e.preventDefault()
       if (!p1IsBot && !p2IsBot)
       paddle1.direction = paddleSpeed
       break
